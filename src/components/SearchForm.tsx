@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { TextField, IconButton, FormControl, RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import { TextField, MenuItem, InputLabel, IconButton, FormControl, RadioGroup, FormControlLabel, Radio, Select } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 
 
@@ -22,8 +22,8 @@ interface Props {
 
 const SearchForm = ({onSubmit}: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [sort, setSort] = useState(null);
-  const [order, setOrder] = useState(null);
+  const [sort, setSort] = useState('best-match');
+  const [order, setOrder] = useState('desc');
 
   const handleSearchInputChange = (event: any) => {
     setSearchQuery(event.target.value);
@@ -33,10 +33,17 @@ const SearchForm = ({onSubmit}: Props) => {
     setOrder(event.target.value)
   }
 
+  const handleSortSelectChange = (event:any) => {
+    console.log(event.target.value)
+    setSort(event.target.value)
+  }
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
     onSubmit(searchQuery, searchQuery)
   }
+
+
 
   return (
     <LookupBox onSubmit={handleSubmit}>
@@ -47,6 +54,23 @@ const SearchForm = ({onSubmit}: Props) => {
         variant="outlined"
         sx={{ margin: "16px" }}
       />
+
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={sort}
+          label="Sort by"
+          onChange={handleSortSelectChange}
+        >
+          <MenuItem value={'best-match'}>Best match</MenuItem>
+          <MenuItem value={'stars'}>Stars</MenuItem>
+          <MenuItem value={'forks'}>Forks</MenuItem>
+          <MenuItem value={'help-wanted-issues'}>Issues</MenuItem>
+          <MenuItem value={'updated'}>Updated</MenuItem>
+        </Select>
+      </FormControl>
 
       <FormControl component="fieldset">
         <RadioGroup
