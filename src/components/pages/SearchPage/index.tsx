@@ -62,6 +62,7 @@ const SearchPage = () => {
 
   const handleSearch = async (searchQuery :string, url: string) => {
     setQuery(searchQuery)
+    console.log(url)
     const response = await fetch(
       `https://api.github.com/search/repositories?q=${url}`
     );

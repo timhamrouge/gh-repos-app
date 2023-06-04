@@ -34,13 +34,16 @@ const SearchForm = ({onSubmit}: Props) => {
   }
 
   const handleSortSelectChange = (event:any) => {
-    console.log(event.target.value)
     setSort(event.target.value)
   }
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    onSubmit(searchQuery, searchQuery)
+    let url = `${searchQuery}&order=${order}`
+    if (sort !== 'best-match') {
+      url = url + `&sort=${sort}`
+    }
+    onSubmit(searchQuery, url)
   }
 
 
