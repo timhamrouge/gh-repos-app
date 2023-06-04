@@ -3,7 +3,6 @@ import styled from "styled-components";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import ListItemText from "@mui/material/ListItemText";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { Repo } from "../../../types";
@@ -50,10 +49,22 @@ const RepoList = styled(List)`
 const RepoListItem = styled(ListItem)`
   border: 1px solid #cdd5e0;
   border-radius: 6px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const SearchMessage = styled("div")`
   text-align: center;
+`
+
+const RepoListItemHeader = styled("div")`
+  display: flex;
+  margin: 8px;
+`
+
+const RepoListItemStats = styled("div")`
+  display: flex;
+  margin: 8px;
 `
 
 const SearchPage = () => {
@@ -93,7 +104,6 @@ const SearchPage = () => {
         {resultsNum && <p>{`${resultsNum} results found for '${query}'`}</p>}
         {!reposList && <p>Search for repos above</p>}
         {reposList && !reposList.length && <p>No repos found! Please try another search</p>}
-
       </SearchMessage>
 
 
@@ -105,16 +115,33 @@ const SearchPage = () => {
           reposList.length > 0 &&
           reposList.map((repo) => (
             <RepoListItem key={repo.id}>
-              <ListItemText
+              <RepoListItemHeader>
+                <Typography>{<Link href={repo.html_url}>{repo.name}</Link>} by {<Link href={repo.owner.html_url}>{repo.owner.login}</Link>}</Typography>
+                <img height={30} src={repo.owner.avatar_url} alt={`${repo.owner.login}-avatar`}/>
+
+                {repo.language}
+                <Typography>View</Typography>
+                <ArrowForwardIosIcon />
+              </RepoListItemHeader>
+              <RepoListItemStats>
+                  {repo.open_issues}
+                  {repo.forks_count}
+                  {repo.stargazers_count}
+                  {repo.watchers_count}
+              </RepoListItemStats>
+
+
+              {/* <ListItemText
                 primary={<Link href={repo.html_url}>{repo.name}</Link>}
                 secondary={
                   <>
                     by <Link href={repo.owner.html_url}>{repo.owner.login}</Link>
                   </>
                 }
-              />
-              <Typography>View</Typography>
-              <ArrowForwardIosIcon />
+              /> */}
+
+
+
             </RepoListItem>
           ))}
       </RepoList>

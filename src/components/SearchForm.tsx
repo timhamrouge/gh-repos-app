@@ -6,6 +6,7 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  FormHelperText,
   Select
 } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
@@ -28,7 +29,7 @@ const LookupBox = styled("form")`
 `;
 
 const SearchRow = styled("div")`
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -43,18 +44,20 @@ const FilterRow = styled("div")`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+
   gap: 16px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 976px) {
     flex-direction: column;
     align-items: center;
   }
 `;
 
 const StyledSelect = styled(Select)`
-  width: 150px;
+  width: 300px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 976px) {
     width: 320px;
   }
 `;
@@ -119,19 +122,22 @@ const SearchForm = ({ onSubmit }: Props) => {
             <MenuItem value="help-wanted-issues">Issues</MenuItem>
             <MenuItem value="updated">Updated</MenuItem>
           </StyledSelect>
+          <FormHelperText></FormHelperText>
         </FormControl>
 
         <FormControl>
           <InputLabel id="order-label">Order</InputLabel>
           <StyledSelect
+            disabled={sort === "best-match" ? true : false}
             labelId="order-label"
-            value={order}
+            value={sort === "best-match" ? "desc" : order}
             label="Order"
             onChange={handleOrderSelectChange}
           >
-            <MenuItem value="desc">Descending</MenuItem>
-            <MenuItem value="asc">Ascending</MenuItem>
+            <MenuItem value="desc">{`Descending (Most -> Least)`}</MenuItem>
+            <MenuItem value="asc">{`Ascending (Least -> Most)`}</MenuItem>
           </StyledSelect>
+          <FormHelperText>Note: Cannot order 'Best match' search results</FormHelperText>
         </FormControl>
       </FilterRow>
     </LookupBox>
