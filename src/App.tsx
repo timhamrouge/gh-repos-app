@@ -1,12 +1,14 @@
 import GlobalStyle from './globalStyles';
 import { Routes, Route } from 'react-router-dom';
 
+import SearchPage from './components/pages/SearchPage';
+
 function App() {
   return (
     <>
     <GlobalStyle/>
     <Routes>
-      <Route  path="/" element={<>hello world</>} />
+      <Route path="/" element={<SearchPage/>} />
     </Routes>
     </>
   );
