@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
-import styled from 'styled-components';
-import { TextField, IconButton } from '@mui/material';
-import { Search as SearchIcon } from '@mui/icons-material';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-
-import ListItemText from '@mui/material/ListItemText';
-
-
+import styled from "styled-components";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ListItemText from "@mui/material/ListItemText";
 import Link from "@mui/material/Link";
-import Typography from '@mui/material/Typography';
-
+import Typography from "@mui/material/Typography";
 import { Repo } from "../../../types";
+
+import SearchForm from "../../SearchForm";
+
+const Container = styled("div")`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Header = styled("div")`
   width: 100%;
@@ -34,16 +37,7 @@ const TitleContainer = styled("div")`
   align-items: center;
 `;
 
-const LookupBox = styled("form")`
-  width: 50%;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #CDD5E0;
-  border-radius: 6px;
-  background-color: #E7EBF0;
-`;
+
 
 const RepoList = styled(List)`
   width: 60%;
@@ -56,30 +50,29 @@ const RepoList = styled(List)`
 `;
 
 const RepoListItem = styled(ListItem)`
-  border: 1px solid #CDD5E0;
+  border: 1px solid #cdd5e0;
   border-radius: 6px;
-`
+`;
 
 const SearchPage = () => {
-  const [searchQuery, setSearchQuery] = useState('');
   const [reposList, setReposList] = useState<Repo[] | null>(null);
   const [resultsNum, setResultsNum] = useState<number | null>(null);
+  const [query, setQuery] = useState<string | null>(null);
 
-  const handleSearchInputChange = (event: any) => {
-    setSearchQuery(event.target.value);
-  };
 
-  const handleSearchSubmit = async (event: any) => {
-    event.preventDefault();
-    const response = await fetch(`https://api.github.com/search/repositories?q=${searchQuery}`);
+  const handleSearch = async (searchQuery :string, url: string) => {
+    setQuery(searchQuery)
+    const response = await fetch(
+      `https://api.github.com/search/repositories?q=${url}`
+    );
     const json = await response.json();
     console.log(json);
     setReposList(json.items);
     setResultsNum(json.total_count);
-  };
+  }
 
   return (
-    <>
+    <Container>
       <Header>
         <ImageContainer>
           <img
@@ -94,39 +87,36 @@ const SearchPage = () => {
         </TitleContainer>
       </Header>
 
-      <LookupBox onSubmit={handleSearchSubmit}>
-        <TextField
-          label="Search"
-          value={searchQuery}
-          onChange={handleSearchInputChange}
-          variant="outlined"
-          sx={{ margin: "16px" }}
-        />
-        <IconButton type="submit">
-          <SearchIcon />
-        </IconButton>
-      </LookupBox>
+      <SearchForm onSubmit={handleSearch} />
 
-      {resultsNum && <p>{`${resultsNum} results found for ${searchQuery}`}</p>}
+      {resultsNum && (
+        <p>{`${resultsNum} results found for ${query}`}</p>
+      )}
 
       <RepoList>
         {!reposList && !reposList && <p>Search for repos above</p>}
-        {reposList && reposList.length && reposList.map(repo => (
-          <>
-          {console.log(repo)}
-          <RepoListItem
-
-          >
-            <ListItemText primary={<Link href={repo.html_url}>{repo.name}</Link>} secondary={<>by <Link href={repo.owner.html_url}>{repo.owner.login}</Link></>}/>
-            <SOmeOtherStuff></SOmeOtherStuff>
+        {reposList &&
+          reposList.length &&
+          reposList.map((repo) => (
+            <>
+              {console.log(repo)}
+              <RepoListItem>
+                <ListItemText
+                  primary={<Link href={repo.html_url}>{repo.name}</Link>}
+                  secondary={
+                    <>
+                      by{" "}
+                      <Link href={repo.owner.html_url}>{repo.owner.login}</Link>
+                    </>
+                  }
+                />
                 <Typography>View</Typography>
                 <ArrowForwardIosIcon />
-          </RepoListItem>
-        </>
-        ))}
+              </RepoListItem>
+            </>
+          ))}
       </RepoList>
-
-    </>
+    </Container>
   );
 };
 
