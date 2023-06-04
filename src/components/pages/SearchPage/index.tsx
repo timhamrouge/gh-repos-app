@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -37,8 +37,6 @@ const TitleContainer = styled("div")`
   align-items: center;
 `;
 
-
-
 const RepoList = styled(List)`
   width: 60%;
   margin: 0 auto;
@@ -54,23 +52,24 @@ const RepoListItem = styled(ListItem)`
   border-radius: 6px;
 `;
 
+const SearchMessage = styled("div")`
+  text-align: center;
+`
+
 const SearchPage = () => {
   const [reposList, setReposList] = useState<Repo[] | null>(null);
   const [resultsNum, setResultsNum] = useState<number | null>(null);
   const [query, setQuery] = useState<string | null>(null);
 
-
-  const handleSearch = async (searchQuery :string, url: string) => {
-    setQuery(searchQuery)
-    console.log(url)
-    const response = await fetch(
-      `https://api.github.com/search/repositories?q=${url}`
-    );
+  const handleSearch = async (searchQuery: string, url: string) => {
+    setQuery(searchQuery);
+    console.log(url);
+    const response = await fetch(`https://api.github.com/search/repositories?q=${url}`);
     const json = await response.json();
     console.log(json);
     setReposList(json.items);
     setResultsNum(json.total_count);
-  }
+  };
 
   return (
     <Container>
@@ -90,31 +89,33 @@ const SearchPage = () => {
 
       <SearchForm onSubmit={handleSearch} />
 
-      {resultsNum && (
-        <p>{`${resultsNum} results found for ${query}`}</p>
-      )}
+      <SearchMessage>
+        {resultsNum && <p>{`${resultsNum} results found for '${query}'`}</p>}
+        {!reposList && <p>Search for repos above</p>}
+        {reposList && !reposList.length && <p>No repos found! Please try another search</p>}
+
+      </SearchMessage>
+
 
       <RepoList>
-        {!reposList && !reposList && <p>Search for repos above</p>}
+        
+
+
         {reposList &&
-          reposList.length &&
+          reposList.length > 0 &&
           reposList.map((repo) => (
-            <>
-              {console.log(repo)}
-              <RepoListItem>
-                <ListItemText
-                  primary={<Link href={repo.html_url}>{repo.name}</Link>}
-                  secondary={
-                    <>
-                      by{" "}
-                      <Link href={repo.owner.html_url}>{repo.owner.login}</Link>
-                    </>
-                  }
-                />
-                <Typography>View</Typography>
-                <ArrowForwardIosIcon />
-              </RepoListItem>
-            </>
+            <RepoListItem key={repo.id}>
+              <ListItemText
+                primary={<Link href={repo.html_url}>{repo.name}</Link>}
+                secondary={
+                  <>
+                    by <Link href={repo.owner.html_url}>{repo.owner.login}</Link>
+                  </>
+                }
+              />
+              <Typography>View</Typography>
+              <ArrowForwardIosIcon />
+            </RepoListItem>
           ))}
       </RepoList>
     </Container>
