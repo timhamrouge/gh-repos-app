@@ -55,7 +55,7 @@ export interface Repo {
   notifications_url?: string;
   open_issues?: number;
   open_issues_count?: number;
-  owner?: unknown;
+  owner: Owner;
   private?: boolean;
   pulls_url?: string;
   pushed_at?: string;
@@ -79,4 +79,26 @@ export interface Repo {
   watchers?: number;
   watchers_count?: number;
   web_commit_signoff_required?: boolean;
+};
+
+
+export interface Owner {
+  login?: string;
+  id?: number;
+  node_id?: string;
+  avatar_url?: string;
+  gravatar_id?: string;
+  url?: string;
+  html_url?: string;
+  followers_url?: string;
+  following_url?: string;
+  gists_url?: string;
+  starred_url?: string;
+  subscriptions_url?: string;
+  organizations_url?: string;
+  repos_url?: string;
+  events_url?: string;
+  received_events_url?: string;
+  type?: string;
+  site_admin?: boolean;
 };

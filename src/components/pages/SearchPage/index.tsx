@@ -4,13 +4,14 @@ import { TextField, IconButton } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
 import ListItemText from '@mui/material/ListItemText';
-import Avatar from '@mui/material/Avatar';
-import Grid from '@mui/material/Grid';
+
+
+import Link from "@mui/material/Link";
 import Typography from '@mui/material/Typography';
-import FolderIcon from '@mui/icons-material/Folder';
-import DeleteIcon from '@mui/icons-material/Delete';
+
 import { Repo } from "../../../types";
 
 const Header = styled("div")`
@@ -44,18 +45,20 @@ const LookupBox = styled("form")`
   background-color: #E7EBF0;
 `;
 
-const RepoList = styled("div")`
-  // width: 80%;
-  // margin-top: 16px;
-  // min-height: 70%;
-  // margin: 0 auto;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // border: 1px solid #CDD5E0;
-  // border-radius: 6px;
-  // background-color: #E7EBF0;
+const RepoList = styled(List)`
+  width: 60%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
 `;
+
+const RepoListItem = styled(ListItem)`
+  border: 1px solid #CDD5E0;
+  border-radius: 6px;
+`
 
 const SearchPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -109,20 +112,17 @@ const SearchPage = () => {
       <RepoList>
         {!reposList && !reposList && <p>Search for repos above</p>}
         {reposList && reposList.length && reposList.map(repo => (
-          <ListItem
-            secondaryAction={
-              <IconButton edge="end" aria-label="delete">
-                <DeleteIcon />
-              </IconButton>
-            }
+          <>
+          {console.log(repo)}
+          <RepoListItem
+
           >
-            <ListItemAvatar>
-              <Avatar>
-                <FolderIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={repo.name} />
-          </ListItem>
+            <ListItemText primary={<Link href={repo.html_url}>{repo.name}</Link>} secondary={<>by <Link href={repo.owner.html_url}>{repo.owner.login}</Link></>}/>
+            <SOmeOtherStuff></SOmeOtherStuff>
+                <Typography>View</Typography>
+                <ArrowForwardIosIcon />
+          </RepoListItem>
+        </>
         ))}
       </RepoList>
 
