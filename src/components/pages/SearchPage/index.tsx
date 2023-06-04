@@ -3,6 +3,10 @@ import styled from "styled-components";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import ForkRightIcon from '@mui/icons-material/ForkRight';
+import StarIcon from '@mui/icons-material/Star';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { Repo } from "../../../types";
@@ -44,6 +48,10 @@ const RepoList = styled(List)`
   justify-content: center;
   align-items: center;
   gap: 4px;
+
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;
 
 const RepoListItem = styled(ListItem)`
@@ -59,12 +67,32 @@ const SearchMessage = styled("div")`
 
 const RepoListItemHeader = styled("div")`
   display: flex;
-  margin: 8px;
+  width: 100%;
+  justify-content: space-between;
 `
 
 const RepoListItemStats = styled("div")`
   display: flex;
   margin: 8px;
+`
+
+const RepoListItemTitle = styled("div")`
+  display: flex;
+  align-items: center;
+  align-content: center;
+`
+
+const RepoListItemViewButton = styled("div")`
+  display: flex;
+  align-items: center;
+  align-content: center;
+`
+
+const StyledAvatarImage = styled("img")`
+  margin-left: 8px;
+  height: 30px;
+  border-radius: 100px;
+  border: 1px solid #cdd5e0;
 `
 
 const SearchPage = () => {
@@ -108,39 +136,32 @@ const SearchPage = () => {
 
 
       <RepoList>
-        
-
-
         {reposList &&
           reposList.length > 0 &&
           reposList.map((repo) => (
             <RepoListItem key={repo.id}>
+
               <RepoListItemHeader>
-                <Typography>{<Link href={repo.html_url}>{repo.name}</Link>} by {<Link href={repo.owner.html_url}>{repo.owner.login}</Link>}</Typography>
-                <img height={30} src={repo.owner.avatar_url} alt={`${repo.owner.login}-avatar`}/>
+                <RepoListItemTitle>
+                <Typography>
+                  {<Link href={repo.html_url}>{repo.name}</Link>} by {<Link href={repo.owner.html_url}>{repo.owner.login}</Link>}
+                </Typography>
+                <StyledAvatarImage src={repo.owner.avatar_url} alt={`${repo.owner.login}-avatar`}/>
 
-                {repo.language}
-                <Typography>View</Typography>
-                <ArrowForwardIosIcon />
+                </RepoListItemTitle>
+                <RepoListItemViewButton>
+                  <Typography>View</Typography>
+                  <ArrowForwardIosIcon />
+                </RepoListItemViewButton>
+                
               </RepoListItemHeader>
-              <RepoListItemStats>
-                  {repo.open_issues}
-                  {repo.forks_count}
-                  {repo.stargazers_count}
-                  {repo.watchers_count}
-              </RepoListItemStats>
 
-
-              {/* <ListItemText
-                primary={<Link href={repo.html_url}>{repo.name}</Link>}
-                secondary={
-                  <>
-                    by <Link href={repo.owner.html_url}>{repo.owner.login}</Link>
-                  </>
-                }
-              /> */}
-
-
+              {/* <RepoListItemStats>
+                  <Typography><ReportProblemIcon/> {repo.open_issues}</Typography>
+                  <Typography><ForkRightIcon/>{repo.forks_count}</Typography>
+                  <Typography><StarIcon/>{repo.stargazers_count}</Typography>
+                  <Typography><VisibilityIcon/>{repo.watchers_count}</Typography>
+              </RepoListItemStats> */}
 
             </RepoListItem>
           ))}
