@@ -3,15 +3,12 @@ import styled from "styled-components";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import ReportProblemIcon from '@mui/icons-material/ReportProblem';
-import ForkRightIcon from '@mui/icons-material/ForkRight';
-import StarIcon from '@mui/icons-material/Star';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { Repo } from "../../../types";
 
 import SearchForm from "../../SearchForm";
+import RepoStats from "../../RepoStats";
 
 const Container = styled("div")`
   display: flex;
@@ -59,41 +56,42 @@ const RepoListItem = styled(ListItem)`
   border-radius: 6px;
   display: flex;
   flex-direction: column;
+  width: 50%;
 `;
 
 const SearchMessage = styled("div")`
   text-align: center;
-`
+`;
 
 const RepoListItemHeader = styled("div")`
   display: flex;
   width: 100%;
   justify-content: space-between;
-`
-
-const RepoListItemStats = styled("div")`
-  display: flex;
-  margin: 8px;
-`
+  padding: 4px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #cdd5e0;
+`;
 
 const RepoListItemTitle = styled("div")`
   display: flex;
   align-items: center;
   align-content: center;
-`
+`;
 
 const RepoListItemViewButton = styled("div")`
   display: flex;
   align-items: center;
   align-content: center;
-`
+`;
 
 const StyledAvatarImage = styled("img")`
   margin-left: 8px;
   height: 30px;
   border-radius: 100px;
   border: 1px solid #cdd5e0;
-`
+`;
+
+
 
 const SearchPage = () => {
   const [reposList, setReposList] = useState<Repo[] | null>(null);
@@ -144,7 +142,7 @@ const SearchPage = () => {
               <RepoListItemHeader>
                 <RepoListItemTitle>
                 <Typography>
-                  {<Link href={repo.html_url}>{repo.name}</Link>} by {<Link href={repo.owner.html_url}>{repo.owner.login}</Link>}
+                  <Link href={repo.html_url}>{repo.name}</Link> by <Link href={repo.owner.html_url}>{repo.owner.login}</Link>
                 </Typography>
                 <StyledAvatarImage src={repo.owner.avatar_url} alt={`${repo.owner.login}-avatar`}/>
 
@@ -153,15 +151,9 @@ const SearchPage = () => {
                   <Typography>View</Typography>
                   <ArrowForwardIosIcon />
                 </RepoListItemViewButton>
-                
-              </RepoListItemHeader>
 
-              {/* <RepoListItemStats>
-                  <Typography><ReportProblemIcon/> {repo.open_issues}</Typography>
-                  <Typography><ForkRightIcon/>{repo.forks_count}</Typography>
-                  <Typography><StarIcon/>{repo.stargazers_count}</Typography>
-                  <Typography><VisibilityIcon/>{repo.watchers_count}</Typography>
-              </RepoListItemStats> */}
+              </RepoListItemHeader>
+<RepoStats forks={repo.forks_count} issues={repo.open_issues} stars={repo.stargazers_count} watchers={repo.watchers_count}/>
 
             </RepoListItem>
           ))}
