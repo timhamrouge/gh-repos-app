@@ -14,7 +14,7 @@ const Container = styled.div`
 
 const StyledPaper = styled(Paper)`
   width: 80%;
-  margin-top: 64px;
+  margin: 16px;
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -63,7 +63,7 @@ const RepoPage = () => {
     <Container>
       {!loading && repo && readMe && (
         <StyledPaper>
-          <Typography>
+          <Typography variant="h4">
             <Link href={repo.html_url}>{repo.name}</Link> by{" "}
             <Link href={repo.owner.html_url}>{repo.owner.login}</Link>
           </Typography>

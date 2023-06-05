@@ -17,25 +17,7 @@ const Container = styled("div")`
   align-items: center;
 `;
 
-const Header = styled("div")`
-  width: 100%;
-  flex-direction: column;
-`;
 
-const ImageContainer = styled("div")`
-  width: 100%;
-  background-color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const TitleContainer = styled("div")`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 const RepoList = styled(List)`
   width: 60%;
@@ -85,8 +67,6 @@ const StyledAvatarImage = styled("img")`
   border: 1px solid #cdd5e0;
 `;
 
-
-
 const SearchPage = () => {
   const [reposList, setReposList] = useState<Repo[] | null>(null);
   const [resultsNum, setResultsNum] = useState<number | null>(null);
@@ -94,30 +74,14 @@ const SearchPage = () => {
 
   const handleSearch = async (searchQuery: string, url: string) => {
     setQuery(searchQuery);
-    console.log(url);
     const response = await fetch(`https://api.github.com/search/repositories?q=${url}`);
     const json = await response.json();
-    console.log(json);
     setReposList(json.items);
     setResultsNum(json.total_count);
   };
 
   return (
     <Container>
-      <Header>
-        <ImageContainer>
-          <img
-            height={100}
-            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fbitemycoin.com%2Fwp-content%2Fuploads%2F2018%2F06%2FGitHub-Logo.png&f=1&nofb=1&ipt=6dc514210ede3c48bf4042a933d8deea1396399879dafd593d0d17bb15c20676&ipo=images"
-            alt="github-logo"
-          />
-        </ImageContainer>
-        <TitleContainer>
-          <h2 style={{ marginRight: "8px" }}>Repo lookup</h2>
-          <h5>powered by the GitHub API</h5>
-        </TitleContainer>
-      </Header>
-
       <SearchForm onSubmit={handleSearch} />
 
       <SearchMessage>
@@ -130,7 +94,7 @@ const SearchPage = () => {
       <RepoList>
         {reposList &&
           reposList.length > 0 &&
-          reposList.map((repo) => (
+          reposList.map((repo, index) => (
             <RepoListItem key={repo.id}>
 
               <RepoListItemHeader>
