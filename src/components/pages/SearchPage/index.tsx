@@ -1,14 +1,13 @@
+import { Button, Link, List, ListItem, Typography } from "@mui/material";
 import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import styled from "styled-components";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Link from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
-import { Repo } from "../../../types";
 
-import { Button } from "@mui/material";
+
 import SearchForm from "../../SearchForm";
 import RepoStats from "../../RepoStats";
+
+import { Repo } from "../../../types";
 
 const Container = styled("div")`
   display: flex;
@@ -105,9 +104,11 @@ const SearchPage = () => {
                 <StyledAvatarImage src={repo.owner.avatar_url} alt={`${repo.owner.login}-avatar`}/>
 
                 </RepoListItemTitle>
-                <Button href={`/repo/${repo.owner.login}/${repo.name}`} sx={{height: "36px"}}variant="contained">
-                  View
-                </Button>
+                <RouterLink to={`/repo/${repo.owner.login}/${repo.name}`}>
+                  <Button sx={{height: "36px"}}variant="contained">
+                    View
+                  </Button>
+                </RouterLink>
 
               </RepoListItemHeader>
               <RepoStats forks={repo.forks_count} issues={repo.open_issues} stars={repo.stargazers_count} watchers={repo.watchers_count}/>

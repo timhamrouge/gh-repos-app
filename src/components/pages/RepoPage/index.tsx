@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { Paper, Typography, Link } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { Repo } from "../../../types";
+
 import RepoStats from "../../RepoStats";
+
+import { Repo } from "../../../types";
 
 const Container = styled.div`
   display: flex;
