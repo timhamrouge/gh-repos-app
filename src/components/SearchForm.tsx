@@ -45,7 +45,6 @@ const FilterRow = styled("div")`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
   gap: 16px;
 
   @media (max-width: 976px) {

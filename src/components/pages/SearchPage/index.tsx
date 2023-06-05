@@ -2,11 +2,11 @@ import { useState } from "react";
 import styled from "styled-components";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { Repo } from "../../../types";
 
+import { Button } from "@mui/material";
 import SearchForm from "../../SearchForm";
 import RepoStats from "../../RepoStats";
 
@@ -67,18 +67,12 @@ const RepoListItemHeader = styled("div")`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  padding: 4px;
+  padding: 8px;
   margin-bottom: 8px;
   border-bottom: 1px solid #cdd5e0;
 `;
 
 const RepoListItemTitle = styled("div")`
-  display: flex;
-  align-items: center;
-  align-content: center;
-`;
-
-const RepoListItemViewButton = styled("div")`
   display: flex;
   align-items: center;
   align-content: center;
@@ -147,10 +141,9 @@ const SearchPage = () => {
                 <StyledAvatarImage src={repo.owner.avatar_url} alt={`${repo.owner.login}-avatar`}/>
 
                 </RepoListItemTitle>
-                <RepoListItemViewButton>
-                  <Typography>View</Typography>
-                  <ArrowForwardIosIcon />
-                </RepoListItemViewButton>
+                <Button href={`/repo/${repo.owner.login}/${repo.name}`} sx={{height: "36px"}}variant="contained">
+                  View
+                </Button>
 
               </RepoListItemHeader>
               <RepoStats forks={repo.forks_count} issues={repo.open_issues} stars={repo.stargazers_count} watchers={repo.watchers_count}/>
