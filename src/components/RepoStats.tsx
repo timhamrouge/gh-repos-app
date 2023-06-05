@@ -35,7 +35,10 @@ const RepoListStatItem = styled(Grid)`
 `;
 
 const RepoListStatItemText = styled(Typography)`
+  display: flex;
+  justify-content: center;
   background-color: white;
+  min-width: 45px;
   border: 1px solid #cdd5e0;
   border-radius: 6px;
   padding: 4px;

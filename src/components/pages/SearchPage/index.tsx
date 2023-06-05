@@ -153,7 +153,7 @@ const SearchPage = () => {
                 </RepoListItemViewButton>
 
               </RepoListItemHeader>
-<RepoStats forks={repo.forks_count} issues={repo.open_issues} stars={repo.stargazers_count} watchers={repo.watchers_count}/>
+              <RepoStats forks={repo.forks_count} issues={repo.open_issues} stars={repo.stargazers_count} watchers={repo.watchers_count}/>
 
             </RepoListItem>
           ))}
