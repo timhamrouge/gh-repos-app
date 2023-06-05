@@ -15,3 +15,4 @@ React, React hooks, Material UI v5, Styled-components, typescript
 - Pagination on the search request
 - format the Readme on the Repo page to be in markup
 - have repos state persist when navigating back from the repo page to the search page
+- specs
